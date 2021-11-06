@@ -84,10 +84,29 @@ namespace DevIO.App.Controllers
         {
             if (id != produtoViewModel.Id) return NotFound();
 
-
+            var produtoAtualizacao = await ObterProduto(id);
+            produtoViewModel.Fornecedor = produtoAtualizacao.Fornecedor;
+            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
             if (!ModelState.IsValid) return View(produtoViewModel);
 
-            await _produtoRepository.Atualiza(_mapper.Map<Produto>(produtoViewModel));
+            if(produtoViewModel.ImagemUpload != null)
+            {
+                var imgPrefixo = Guid.NewGuid() + "_";
+                if(!await UploadArquivo(produtoViewModel.ImagemUpload, imgPrefixo))
+                {
+                    return View(produtoViewModel);
+                }
+
+                produtoAtualizacao.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+            }
+
+            produtoAtualizacao.Nome = produtoViewModel.Nome;
+            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
+            produtoAtualizacao.Valor = produtoViewModel.Valor;
+            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+
+            await _produtoRepository.Atualiza(_mapper.Map<Produto>(produtoAtualizacao));
+
             return RedirectToAction("Index");
         }
 
@@ -115,7 +134,7 @@ namespace DevIO.App.Controllers
 
         private async Task<ProdutoViewModel> ObterProduto(Guid id)
         {
-            var produto = _mapper.Map<ProdutoViewModel>(await _fornecedorRepository.ObterFornecedorEndereco(id));
+            var produto = _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
             produto.Fornecedores = _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
             return produto;
         }

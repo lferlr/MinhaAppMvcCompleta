@@ -43,6 +43,10 @@ namespace DevIO.Data.Repository
 
         public virtual async Task Atualiza(TEntity entity)
         {
+            /*DbSet.Update(entity);
+            await SaveChanges();*/
+
+            Db.Entry(entity).State = EntityState.Modified;
             DbSet.Update(entity);
             await SaveChanges();
         }
