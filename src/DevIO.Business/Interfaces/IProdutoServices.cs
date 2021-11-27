@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DevIO.Business.Interfaces
 {
-    public interface IProdutoServices
+    public interface IProdutoServices : IDisposable
     {
         Task Adicionar(Produto produto);
         Task Atualizar(Produto produto);
