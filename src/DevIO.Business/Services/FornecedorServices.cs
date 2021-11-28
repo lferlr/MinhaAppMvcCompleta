@@ -1,4 +1,5 @@
-﻿using DevIO.Business.Interfaces;
+﻿using DevIO.Business.Intefaces;
+using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
 using DevIO.Business.Models.Validations;
 using System;
@@ -7,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace DevIO.Business.Services
 {
-    public abstract class IFornecedorServices : BaseServices, Interfaces.IFornecedorServices
+    public abstract class FornecedorServices : BaseServices, Interfaces.IFornecedorServices
     {
         private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IEnderecoRepository _enderecoRepository;
 
-        public IFornecedorServices(IFornecedorRepository fornecedorRepository, IEnderecoRepository enderecoRepository)
+        public FornecedorServices(IFornecedorRepository fornecedorRepository, 
+                                  IEnderecoRepository enderecoRepository, 
+                                  INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;

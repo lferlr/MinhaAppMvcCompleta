@@ -1,4 +1,5 @@
-﻿using DevIO.Business.Interfaces;
+﻿using DevIO.Business.Intefaces;
+using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
 using DevIO.Business.Models.Validations;
 using System;
@@ -10,7 +11,7 @@ namespace DevIO.Business.Services
     {
         private readonly IProdutoRepository _produtoRepository;
 
-        public ProdutoServices(IProdutoRepository produtoRepository)
+        public ProdutoServices(IProdutoRepository produtoRepository, INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
         }
