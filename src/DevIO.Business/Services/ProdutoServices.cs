@@ -1,21 +1,21 @@
-﻿using DevIO.Business.Intefaces;
+﻿using System;
+using System.Threading.Tasks;
 using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
 using DevIO.Business.Models.Validations;
-using System;
-using System.Threading.Tasks;
 
 namespace DevIO.Business.Services
 {
-    public abstract class ProdutoServices : BaseServices, IProdutoServices
+    public class ProdutoServices : BaseServices, IProdutoServices
     {
         private readonly IProdutoRepository _produtoRepository;
 
-        public ProdutoServices(IProdutoRepository produtoRepository, INotificador notificador) : base(notificador)
+        public ProdutoServices(IProdutoRepository produtoRepository,
+                              INotificador notificador) : base(notificador)
         {
             _produtoRepository = produtoRepository;
         }
-        
+
         public async Task Adicionar(Produto produto)
         {
             if (!ExecutarValidacao(new ProdutoValidation(), produto)) return;
@@ -29,7 +29,6 @@ namespace DevIO.Business.Services
 
             await _produtoRepository.Atualiza(produto);
         }
-
 
         public async Task Remover(Guid id)
         {

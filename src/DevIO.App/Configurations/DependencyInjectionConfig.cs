@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using DevIO.Business.Notificacoes;
 using DevIO.Business.Services;
-using DevIO.Business.Intefaces;
 
 namespace DevIO.App.Configurations
 {

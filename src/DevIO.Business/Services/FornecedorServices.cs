@@ -1,21 +1,21 @@
-﻿using DevIO.Business.Intefaces;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
 using DevIO.Business.Models.Validations;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevIO.Business.Services
 {
-    public abstract class FornecedorServices : BaseServices, Interfaces.IFornecedorServices
+    public class FornecedorServices : BaseServices, IFornecedorServices
     {
         private readonly IFornecedorRepository _fornecedorRepository;
         private readonly IEnderecoRepository _enderecoRepository;
 
-        public FornecedorServices(IFornecedorRepository fornecedorRepository, 
-                                  IEnderecoRepository enderecoRepository, 
-                                  INotificador notificador) : base(notificador)
+        public FornecedorServices(IFornecedorRepository fornecedorRepository,
+                                 IEnderecoRepository enderecoRepository,
+
+                                 INotificador notificador) : base(notificador)
         {
             _fornecedorRepository = fornecedorRepository;
             _enderecoRepository = enderecoRepository;
@@ -24,11 +24,11 @@ namespace DevIO.Business.Services
         public async Task Adicionar(Fornecedor fornecedor)
         {
             if (!ExecutarValidacao(new FornecedorValidation(), fornecedor)
-                && !ExecutarValidacao(new EnderecoValidation(), fornecedor.Endereco)) return;
+                || !ExecutarValidacao(new EnderecoValidation(), fornecedor.Endereco)) return;
 
-            if(_fornecedorRepository.Buscar(f => f.Documento == fornecedor.Documento).Result.Any())
+            if (_fornecedorRepository.Buscar(f => f.Documento == fornecedor.Documento).Result.Any())
             {
-                Notificar("Já existe um fornecedor com este documento informado!");
+                Notificar("Já existe um fornecedor com este documento infomado.");
                 return;
             }
 
@@ -41,10 +41,10 @@ namespace DevIO.Business.Services
 
             if (_fornecedorRepository.Buscar(f => f.Documento == fornecedor.Documento && f.Id != fornecedor.Id).Result.Any())
             {
-                Notificar("Já existe um fornecedor com este documento informado!");
+                Notificar("Já existe um fornecedor com este documento infomado.");
                 return;
             }
-            
+
             await _fornecedorRepository.Atualiza(fornecedor);
         }
 
@@ -63,6 +63,13 @@ namespace DevIO.Business.Services
                 return;
             }
 
+            var endereco = await _enderecoRepository.ObterEnderecoPorFornecedor(id);
+
+            if (endereco != null)
+            {
+                await _enderecoRepository.Remover(endereco.Id);
+            }
+
             await _fornecedorRepository.Remover(id);
         }
 
@@ -72,5 +79,4 @@ namespace DevIO.Business.Services
             _enderecoRepository?.Dispose();
         }
     }
-
 }

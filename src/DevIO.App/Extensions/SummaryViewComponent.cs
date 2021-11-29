@@ -1,14 +1,14 @@
-﻿using DevIO.Business.Intefaces;
+﻿using DevIO.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace DevIO.App.Extensions
 {
-    public class SumaryViewComponent : ViewComponent
+    public class SummaryViewComponent : ViewComponent
     {
         private readonly INotificador _notificador;
 
-        public SumaryViewComponent(INotificador notificador)
+        public SummaryViewComponent(INotificador notificador)
         {
             _notificador = notificador;
         }

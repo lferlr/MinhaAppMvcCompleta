@@ -1,10 +1,8 @@
-﻿using DevIO.Business.Intefaces;
+﻿using DevIO.Business.Interfaces;
 using DevIO.Business.Models;
 using DevIO.Business.Notificacoes;
 using FluentValidation;
 using FluentValidation.Results;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevIO.Business.Services
 {

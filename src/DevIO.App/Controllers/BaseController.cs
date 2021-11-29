@@ -1,4 +1,4 @@
-﻿using DevIO.Business.Intefaces;
+﻿using DevIO.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevIO.App.Controllers

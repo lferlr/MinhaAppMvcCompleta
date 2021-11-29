@@ -5,7 +5,6 @@ using DevIO.App.ViewModels;
 using DevIO.Business.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using DevIO.Business.Intefaces;
 using DevIO.Business.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -146,6 +145,8 @@ namespace DevIO.App.Controllers
             await _produtoServices.Remover(id);
 
             if (!OperacaoValida()) return View(produto);
+
+            TempData["Sucesso"] = "Produto excluido com sucesso!";
 
             return RedirectToAction("Index");
         }
