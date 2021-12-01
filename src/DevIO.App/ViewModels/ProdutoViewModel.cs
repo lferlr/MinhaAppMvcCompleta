@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using DevIO.App.Extensions;
 using Microsoft.AspNetCore.Http;
 
@@ -25,6 +26,7 @@ namespace DevIO.App.ViewModels
         [StringLength(1000, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 2)]
         public string Descricao { get; set; }
 
+        [NotMappedAttribute]
         [DisplayName("Imagem do Produto")]
         public IFormFile ImagemUpload { get; set; }
 
@@ -40,8 +42,10 @@ namespace DevIO.App.ViewModels
         [DisplayName("Ativo?")]
         public bool Ativo { get; set; }
 
+        [NotMapped]
         public FornecedorViewModel Fornecedor { get; set; }
 
+        [NotMapped]
         public IEnumerable<FornecedorViewModel> Fornecedores { get; set; }
     }
 }
